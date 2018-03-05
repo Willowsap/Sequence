@@ -10,7 +10,6 @@ public class GameState {
 	public GameState(Sequence s) {
 		this.s = s; 
 	}
-	
 	public ArrayList<String> getLegalPlays(Card c, Player p) {
 		return s.getLegalPlays(c, p);
 	}
