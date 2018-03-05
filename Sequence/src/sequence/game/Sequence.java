@@ -110,7 +110,19 @@ public class Sequence {
 	}
 	
 	private boolean validMove(String move) {
-		return true;
+		String[] splitMove = move.split(SPLITTER);
+		if (splitMove.length == 2) {
+			try {
+				int cardIndex = Integer.parseInt(splitMove[0]);
+				if (hands.get(currPlayer).size() > cardIndex) {
+					return board.getLegalPlays(hands.get(currPlayer).get(cardIndex), playerCharacters[currPlayer]
+						).contains(splitMove[1]);
+				}
+			} catch(NumberFormatException e) {
+				return false;
+			}
+		}
+		return false;
 	}
 	
 	private int getIndexOfPlayer(Player p) {

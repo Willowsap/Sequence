@@ -83,6 +83,10 @@ public class Board {
 		}
 	}
 	
+	public HashMap<String, Card> getBoardMap() {
+		return boardMap;
+	}
+	
 	public void printBoard() {
 		String[] rows = {"1 ","2 ","3 ","4 ","5 ","6 ","7 ","8 ","9 ","10"};
 		System.out.println("    --------------------------------");
