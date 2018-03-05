@@ -8,6 +8,7 @@ import java.util.Map.Entry;
 import java.util.Scanner;
 
 public class Board {
+	public static final char EMPTY_CHAR = ' ';
 	private static final int[][] DIRECTIONS = {{1,0},{0,1},{1,1},{1,-1}};
 	private static final String BOARD_FILE = "src/sequence/game/board.txt";
 	private static final String[][] boardArray = {
@@ -72,6 +73,14 @@ public class Board {
 				return true;
 		}
 		return false;
+	}
+	
+	public char getTileOwner(String tile) {
+		if (ownedTiles.containsKey(tile)) {
+			return ownedTiles.get(tile);
+		} else {
+			return EMPTY_CHAR;
+		}
 	}
 	
 	public void printBoard() {

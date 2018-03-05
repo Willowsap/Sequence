@@ -1,7 +1,6 @@
 package sequence.game;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import sequence.players.Player;
 
@@ -12,11 +11,12 @@ public class Sequence {
 	private Board board;
 	private Deck deck;
 	private ArrayList<ArrayList<Card>> hands;
-	private HashMap<Player, Character> playerCharacters;
+	char[] playerCharacters;
 	Player[] players;
 	private GameState game;
 	private boolean gameOver;
 	private Player winningPlayer = null;
+	private int currPlayer;
 	
 	
 	public Sequence(Player p1, Player p2) {
@@ -30,17 +30,25 @@ public class Sequence {
 				hands.get(i).add(deck.drawCard());
 			}
 		}
-		playerCharacters = new HashMap<Player,Character>(NUM_PLAYERS);
+		playerCharacters = new char[2];
 		players = new Player[2];
 		players[0] = p1;
 		players[1] = p2;
-		playerCharacters.put(p1, 'X');
-		playerCharacters.put(p2, 'O');
+		playerCharacters[0] = 'X';
+		playerCharacters[1] = '0';
 		gameOver = false;
+		currPlayer = 0;
+	}
+	public char[] getPlayerCharacterList() {
+		return playerCharacters;
+	}
+	
+	public int getCurrPlayer() {
+		return currPlayer;
 	}
 	
 	public void play() throws IllegalMoveException {
-		int currPlayer = 0;
+		currPlayer = 0;
 		int playersSkipped = 0;
 		while(!gameOver) {
 			String move = players[currPlayer].play(hands.get(currPlayer), game);
@@ -52,7 +60,7 @@ public class Sequence {
 					if (Tools.isRemove(hands.get(currPlayer).get(Integer.parseInt(splitMove[0])))) {
 						board.unclaimTile(splitMove[1]);
 					} else {
-						board.claimTile(splitMove[1], playerCharacters.get(players[currPlayer]));
+						board.claimTile(splitMove[1], playerCharacters[currPlayer]);
 						checkIfPlayerWon(currPlayer, splitMove[1]);
 					}
 					drawCard(currPlayer, Integer.parseInt(splitMove[0]));
@@ -78,7 +86,11 @@ public class Sequence {
 		}
 	}
 	public ArrayList<String> getLegalPlays(Card c, Player p) {
-		return board.getLegalPlays(c, playerCharacters.get(p));
+		return board.getLegalPlays(c, playerCharacters[getIndexOfPlayer(p)]);
+	}
+	
+	public Board getBoard() {
+		return board;
 	}
 	
 	private void checkIfPlayerWon(int currPlayer, String move) {
@@ -99,6 +111,13 @@ public class Sequence {
 	
 	private boolean validMove(String move) {
 		return true;
+	}
+	
+	private int getIndexOfPlayer(Player p) {
+		for (int i = 0; i < players.length; i++) {
+			if (players[i] == p) return i;
+		}
+		return -1;
 	}
 	
 	

@@ -14,9 +14,11 @@ public abstract class Player {
 	 * ex: 3-A4
 	 */
 	public abstract String play(ArrayList<Card> hand, GameState game);
+	
 	public String getName() {
 		return name;
 	}
+	
 	public void setName(String name) {
 		this.name = name;
 	}
